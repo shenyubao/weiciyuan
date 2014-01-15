@@ -207,6 +207,9 @@
         <!-- nearby-->
         <activity android:name=".ui.nearby.NearbyTimeLineActivity"/>
 
+        <!--VIP-->
+        <activity android:name=".ui.vip.VipActivity"/>
+
         <!--preference activity -->
         <activity android:name=".ui.preference.SettingActivity"/>
         <!--intent-filter is used for Android-Setting-Data usage- click this app- View app Settings-->

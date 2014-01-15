@@ -1,5 +1,8 @@
 package org.qii.weiciyuan.ui.main;
 
+import com.google.android.gms.internal.br;
+import com.google.android.gms.internal.cu;
+import com.google.android.gms.internal.fa;
 import com.slidingmenu.lib.SlidingMenu;
 
 import org.qii.weiciyuan.R;
@@ -23,6 +26,7 @@ import org.qii.weiciyuan.ui.preference.SettingActivity;
 import org.qii.weiciyuan.ui.search.SearchMainParentFragment;
 import org.qii.weiciyuan.ui.userinfo.MyFavListFragment;
 import org.qii.weiciyuan.ui.userinfo.NewUserInfoFragment;
+import org.qii.weiciyuan.ui.vip.VipActivity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -93,6 +97,8 @@ public class LeftMenuFragment extends AbstractAppFragment {
 
     public static final int SETTING_INDEX = 8;
 
+    public static final int VIP_INDEX = 9;
+
     public static LeftMenuFragment newInstance() {
         LeftMenuFragment fragment = new LeftMenuFragment();
         fragment.setArguments(new Bundle());
@@ -145,6 +151,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         rightFragments.append(PROFILE_INDEX,
                 ((MainTimeLineActivity) getActivity()).getMyProfileFragment());
 
+        currentIndex =1;
         switchCategory(currentIndex);
 
         layout.nickname.setText(GlobalContext.getInstance().getCurrentAccountName());
@@ -174,6 +181,8 @@ public class LeftMenuFragment extends AbstractAppFragment {
                 break;
             case PROFILE_INDEX:
                 showProfilePage(true);
+            case VIP_INDEX:
+                showVipPage(true);
                 break;
         }
         drawButtonsBackground(position);
@@ -265,6 +274,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
+        ft.hide(rightFragments.get(VIP_INDEX));
 
         FriendsTimeLineFragment fragment = (FriendsTimeLineFragment) rightFragments.get(HOME_INDEX);
         ft.show(fragment);
@@ -498,6 +508,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
 
+
         Fragment fragment = rightFragments.get(DM_INDEX);
 
         ft.show(fragment);
@@ -505,6 +516,14 @@ public class LeftMenuFragment extends AbstractAppFragment {
 
         ((DMUserListFragment) fragment).buildActionBarAndViewPagerTitles();
     }
+
+    private boolean showVipPage(boolean reset){
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), VipActivity.class);
+        startActivity(intent);
+        return true;
+    }
+
 
     private boolean showFavPage(boolean reset) {
         getActivity().getActionBar().setDisplayShowTitleEnabled(true);
@@ -547,6 +566,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         ft.hide(rightFragments.get(SEARCH_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
+
 
         Fragment fragment = rightFragments.get(FAV_INDEX);
 
@@ -597,6 +617,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
 
+
         Fragment fragment = rightFragments.get(PROFILE_INDEX);
 
         ft.show(fragment);
@@ -627,6 +648,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         layout.comment = (LinearLayout) view.findViewById(R.id.btn_comment);
         layout.search = (Button) view.findViewById(R.id.btn_search);
         layout.profile = (Button) view.findViewById(R.id.btn_profile);
+        layout.vip = (Button) view.findViewById(R.id.btn_vip);
 //        layout.location = (Button) view.findViewById(R.id.btn_location);
         layout.setting = (Button) view.findViewById(R.id.btn_setting);
         layout.dm = (Button) view.findViewById(R.id.btn_dm);
@@ -652,6 +674,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         layout.comment.setOnClickListener(onClickListener);
         layout.search.setOnClickListener(onClickListener);
         layout.profile.setOnClickListener(onClickListener);
+        layout.vip.setOnClickListener(onClickListener);
 //        layout.location.setOnClickListener(onClickListener);
         layout.setting.setOnClickListener(onClickListener);
         layout.dm.setOnClickListener(onClickListener);
@@ -683,6 +706,10 @@ public class LeftMenuFragment extends AbstractAppFragment {
                     showProfilePage(false);
                     drawButtonsBackground(PROFILE_INDEX);
                     break;
+                case R.id.btn_vip:
+                    showVipPage(false);
+                    drawButtonsBackground(VIP_INDEX);
+                    break;
                 case R.id.btn_location:
                     startActivity(new Intent(getActivity(), NearbyTimeLineActivity.class));
 //                    drawButtonsBackground(5);
@@ -711,6 +738,7 @@ public class LeftMenuFragment extends AbstractAppFragment {
         layout.comment.setBackgroundResource(R.drawable.btn_drawer_menu);
         layout.search.setBackgroundResource(R.drawable.btn_drawer_menu);
         layout.profile.setBackgroundResource(R.drawable.btn_drawer_menu);
+        layout.vip.setBackgroundResource(R.drawable.btn_drawer_menu);
 //        layout.location.setBackgroundResource(R.color.transparent);
 //        layout.setting.setBackgroundResource(R.color.transparent);
         layout.dm.setBackgroundResource(R.drawable.btn_drawer_menu);
@@ -734,6 +762,9 @@ public class LeftMenuFragment extends AbstractAppFragment {
                 break;
             case FAV_INDEX:
                 layout.fav.setBackgroundResource(R.color.ics_blue_semi);
+                break;
+            case VIP_INDEX:
+                layout.vip.setBackgroundResource(R.color.ics_blue_semi);
                 break;
 //            case 5:
 //                layout.location.setBackgroundResource(R.color.ics_blue_semi);
@@ -906,6 +937,8 @@ public class LeftMenuFragment extends AbstractAppFragment {
         TextView mentionCount;
 
         TextView commentCount;
+
+        Button vip;
 
         Button search;
 
